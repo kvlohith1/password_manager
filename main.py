@@ -54,13 +54,16 @@ def save_password():
 
 
 def search():
-    with open(file='password.json') as file:
-        website = website_entry.get()
-        result_data = json.load(fp=file)
-        try:
-            messagebox.showinfo(message=f'email: {result_data[website]["email"]}\npassword: {result_data[website]["password"]}')
-        except KeyError:
-            messagebox.showerror(message='Password has not been for this site yet.')
+    try:
+        with open(file='password.json') as file:
+            website = website_entry.get()
+            result_data = json.load(fp=file)
+            if website in result_data:
+                messagebox.showinfo(message=f'email: {result_data[website]["email"]}\npassword: {result_data[website]["password"]}')
+            else:
+                messagebox.showerror(message=f'Password has not been for {website} yet.')
+    except FileNotFoundError:
+        messagebox.showerror(message=f'The password file doesnt exist yet.')
 # --------- UI SETUP ------------------------------- #
 
 
